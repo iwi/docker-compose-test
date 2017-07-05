@@ -16,5 +16,6 @@ RUN apt-get update -qq \
 USER jovyan
 
 COPY requirements.txt /home/jovyan/work/requirements.txt
+COPY * /home/jovyan/work/
 
 RUN pip install -r requirements.txt
