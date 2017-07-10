@@ -16,6 +16,7 @@ RUN apt-get update -qq \
 USER jovyan
 
 COPY requirements.txt /home/jovyan/work/requirements.txt
-COPY * /home/jovyan/work/
+COPY ./* /home/jovyan/work/
+COPY ./project/__init__.py /home/jovyan/work/project/__init__.py
 
 RUN pip install -r requirements.txt
