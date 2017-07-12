@@ -1,7 +1,7 @@
 # manage.py
 
 from flask_script import Manager
-from flask_script import app
+from project import app
 
 manager = Manager(app)
 

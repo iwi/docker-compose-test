@@ -1,22 +1,17 @@
-FROM jupyter/minimal-notebook:latest
+FROM python:3.6.1
 
-ENV LANG en_US.UTF-8
-ENV LC_ALL C.UTF-8
+# set working directory
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
 
-USER root
+# add requirements (to leverage Docker cache)
+ADD ./requirements.txt /usr/src/app/requirements.txt
 
-RUN apt-get update -qq \
- && apt-get install -qqy \
-       gcc \
- && apt-get autoclean \
- && apt-get clean \
- && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
- && pip install --upgrade pip
-
-USER jovyan
-
-COPY requirements.txt /home/jovyan/work/requirements.txt
-COPY ./* /home/jovyan/work/
-COPY ./project/__init__.py /home/jovyan/work/project/__init__.py
-
+# install requirements
 RUN pip install -r requirements.txt
+
+# add app
+ADD . /usr/src/app
+
+# run server
+CMD python manage.py runserver -h 0.0.0.0
