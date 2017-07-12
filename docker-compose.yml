@@ -1,5 +1,17 @@
 version: "3.2"
+
 services:
+
+  users-db:
+    build: ./project/db
+    ports:
+      - 5435:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=mysecretpassword
+    healthcheck:
+      test: exit 0
+
   users-service:
     build:
       context: .
@@ -10,6 +22,13 @@ services:
       - 5001:5000 # expose ports - HOST:CONTAINER
     environment:
       - APP_SETTINGS=project.config.DevelopmentConfig
+      - DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_dev
+      - DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test
+    depends_on:
+      - users-db
+    links:
+      - users-db
+
 
   # jupyter:
   #   build:
@@ -20,14 +39,6 @@ services:
   #     - "8888:8888"
   #   depends_on:
   #     - postgres
-
-#   postgres:
-  #   image: postgres
-  #   environment:
-  #     - POSTGRES_PASSWORD=mysecretpassword
-  #     - PGDATA=/var/lib/postgresql/data/pgdata
-  #   volumes:
-  #     - data:/var/lib/postgresql/data/pgdata
 
 # volumes:
   # data: {}
