@@ -10,10 +10,6 @@ app = Flask(__name__)
 app.settings = os.getenv('APP_SETTINGS')
 app.config.from_object(app.settings)
 
-
-print(app.config)
-
-
 @app.route('/ping', methods=['GET'])
 def ping_pong():
     return jsonify({
