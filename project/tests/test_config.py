@@ -31,7 +31,7 @@ class TestTestingConfig(TestCase):
         self.assertTrue(app.config['SECRET_KEY'] == 'my_precious')
         self.assertTrue(app.config['DEBUG'])
         self.assertTrue(app.config['TESTING'])
-        self.assertTrue(app.config['PRESERVE_CONTEXT_ON_EXCEPTION'])
+        self.assertFalse(app.config['PRESERVE_CONTEXT_ON_EXCEPTION'])
         self.assertTrue(app.config['SQLALCHEMY_DATABASE_URI'] ==
                         'postgres://postgres:postgres@users-db:5432/users_test')
 
@@ -43,8 +43,8 @@ class TestProductionConfig(TestCase):
 
     def test_app_is_production(self):
         self.assertTrue(app.config['SECRET_KEY'] == 'my_precious')
-        self.assertTrue(app.config['DEBUG'])
-        self.assertTrue(app.config['TESTING'])
+        self.assertFalse(app.config['DEBUG'])
+        self.assertFalse(app.config['TESTING'])
 
 
 if __name__ == '__main__':
